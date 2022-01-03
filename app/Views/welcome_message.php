@@ -222,6 +222,7 @@
 		<h1>Welcome to CodeIgniter <?= CodeIgniter\CodeIgniter::CI_VERSION ?></h1>
 
 		<h2>The small framework with powerful features</h2>
+		<p>Hello World! :D</p>
 
 	</div>
 
