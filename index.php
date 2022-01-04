@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <title>PHP & MongoDB - CRUD Operation Tutorials - ItSolutionStuff.com</title>
+   <title>PHP & MongoDB - CRUD Operation Tutorials - f.com</title>
    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 </head>
 <body>
