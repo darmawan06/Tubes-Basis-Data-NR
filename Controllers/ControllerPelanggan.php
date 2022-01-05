@@ -69,12 +69,12 @@
 		if ($_GET['method'] == "delete") {
 			$control->deleteData($_GET['id']);
 			echo "<script>
-				window.location.href = '../index.php'
+				window.location.href = '../index.php?view=pelanggan'
 			</script>";
 		}else if ($_GET['method'] == "insert") {
 			$control->insertData();
 			echo "<script>
-				window.location.href = '../index.php'
+				window.location.href = '../index.php?view=pelanggan'
 			</script>";
 		}
 	}

@@ -18,7 +18,7 @@
 </header>
 <div class="w-full h-screen flex">
    <div class="w-1/6 bg-green-700 h-5/6 flex flex-col pr-4">
-      <div class="w-full bg-white my-auto p-4 rounded-r-full text-center hover:bg-green-400">Penumpang</div>
+      <div class="w-full bg-white my-auto p-4 rounded-r-full text-center hover:bg-green-400"><a href="?view=pelanggan">Penumpang</a></div>
       <div class="w-full bg-white my-auto p-4 rounded-r-full text-center hover:bg-green-400">Gopay</div>
       <div class="w-full bg-white my-auto p-4 rounded-r-full text-center hover:bg-green-400">Driver</div>
       <div class="w-full bg-white my-auto p-4 rounded-r-full text-center hover:bg-green-400">Order</div>
