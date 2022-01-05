@@ -1,5 +1,5 @@
 <?php 
-	class ControllerLogin{
+	class ControllerPelanggan{
 		private $model;
 		function __construct()
 		{
@@ -65,7 +65,7 @@
 
 	if (isset($_GET['method'])) {
 		require '../Models/ModelPelanggan.php';
-		$control = new ControllerLogin();
+		$control = new ControllerPelanggan();
 		if ($_GET['method'] == "delete") {
 			$control->deleteData($_GET['id']);
 			echo "<script>
