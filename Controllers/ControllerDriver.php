@@ -15,24 +15,9 @@
                 else {
                     $dir = "../src/foto_driver/";
                     
-                    // your file
                     $namaFoto = $_FILES['foto_driver']['name'];
                     $arrNamaFoto = explode('.', $namaFoto);
                     $namaFoto = round(microtime(true)).'.'.$arrNamaFoto[1];
-                    $namaSementara = $_FILES['foto_driver']['tmp_name'];
-
-                    $imgInfo = getimagesize($namaSementara); 
-                    $mime = $imgInfo['mime']; 
-                    switch($mime){ 
-                        case 'image/jpeg': 
-                            $image = imagecreatefromjpeg($namaSementara); 
-                            break; 
-                        case 'image/png': 
-                            $image = imagecreatefrompng($namaSementara); 
-                            break; 
-                        default: 
-                            $image = imagecreatefromjpeg($namaSementara); 
-                    }
 
                     $data = array(
                         "_id" => $_POST['id'],
@@ -105,7 +90,6 @@
                     $namaFoto = $_FILES['foto_driver']['name'];
                     $arrNamaFoto = explode('.', $namaFoto);
                     $namaFoto = round(microtime(true)).'.'.$arrNamaFoto[1];
-                    $namaSementara = $_FILES['foto_driver']['tmp_name'];
                 }
 			}
             else {
@@ -200,9 +184,9 @@
 			</script>";
 		}else if($_GET['method'] == 'update') {
             $control->updateData($_GET['id']);
-			// echo "<script>
-			// 	window.location.href = '../index.php?view=driver'
-			// </script>";
+			echo "<script>
+				window.location.href = '../index.php?view=driver'
+			</script>";
         }
 	}
 
