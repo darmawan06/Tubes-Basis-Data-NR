@@ -1,6 +1,6 @@
 <?php
-      require 'Controllers/ControllerPelanggan.php';
-      $model = new ControllerPelanggan();
+      require 'Controllers/ControllerDriver.php';
+      $model = new ControllerDriver();
 ?>
 <!DOCTYPE html>
 <html>
@@ -51,11 +51,13 @@
                   <th class="border-2">No Telepon</th>
                   <th class="border-2">Foto</th>
                   <th class="border-2">No Plat Kendaraan</th>
+                  <th class="border-2">Jenis Kendaraan</th>
                   <th class="border-2">Rating Driver</th>
                   <th class="border-2" colspan="2">lokasi</th>
                   <th class="border-2">aksi</th>
                 </tr>
                  <tr>
+                  <th class="border-2"></th>
                   <th class="border-2"></th>
                   <th class="border-2"></th>
                   <th class="border-2"></th>
@@ -70,19 +72,20 @@
               </thead>
               <tbody>
                    <?php foreach ($model->selectData() as $key => $value) :?>
-                     <tr>
+                     <tr class="justify-center items-center">
                         <td class="border-2"><?= $key+1 ?></td>
                         <td class="border-2 bg-red-100"><?= $value['_id']?></td>
-                        <td class="border-2"><?= $value['nama_penumpang']?></td>
-                        <td class="border-2"><?= $value['no_penumpang']?></td>
-                        <td class="border-2"><?= $value['foto_penumpang']?></td>
-                        <td class="border-2"><?= $value['status_penumpang']?></td>
-                        <td class="border-2"><?= $value['status_penumpang']?></td>
-                        <td class="border-2" colspan="1"><?= $value['lokasi_penumpang']['lat']?></td>
-                        <td class="border-2" colspan="1"><?= $value['lokasi_penumpang']['long']?></td>
+                        <td class="border-2"><?= $value['nama_driver']?></td>
+                        <td class="border-2"><?= $value['no_telp_driver']?></td>
+                        <td class="border-2"><img src="<?= 'src/foto_driver/'.$value['foto_driver']?>" alt="" width="80"></td>
+                        <td class="border-2"><?= $value['no_plat_kendaraan']?></td>
+                        <td class="border-2"><?= $value['jenis_kendaraan']?></td>
+                        <td class="border-2"><?= $value['rating_driver']?></td>
+                        <td class="border-2" colspan="1"><?= $value['lokasi_terkini_driver']['latitude']?></td>
+                        <td class="border-2" colspan="1"><?= $value['lokasi_terkini_driver']['longitude']?></td>
                         <td class="border-2 flex">
-                           <a class=" mx-auto" href=""><button class="p-2 w-full bg-red-400 hover:bg-green-400">Delete</button></a>
-                           <a class=" mx-auto" href=""><button class="p-2 w-full bg-blue-400 hover:bg-green-400">Update</button></a>
+                           <a class=" mx-auto" href="Controllers/ControllerDriver.php?method=delete&id=<?= $value['_id']?>"><button class="p-2 w-full bg-red-400 hover:bg-green-400">Delete</button></a>
+                           <a class=" mx-auto" href="index.php?view=driver&update_id=<?= $value['_id']?>"><button class="p-2 w-full bg-blue-400 hover:bg-green-400">Update</button></a>
                         </td>
                       </tr>
                <?php endforeach; ?>
@@ -91,7 +94,7 @@
          </div>
          <div class="w-2/6 h-5/6 mt-4">
             <?php if (!isset($_GET['update_id'])): ?>
-               <form method="POST" action="">
+               <form method="POST" action="Controllers/ControllerDriver.php?method=insert" enctype="multipart/form-data">
                   <div class="bg-green-100 w-full h-full p-8">
                      <div class="text-center text-lg">Tambah Data</div>
                      <div class="flex flex-col">
@@ -100,32 +103,35 @@
                            <input type="text" name="id" class="ml-auto p-2" required placeholder="ID" >
                         </div>
                         <div class="w-full flex my-2">
-                           <div for="nama" class="">Nama :</div>
-                           <input type="text" name="nama" class="ml-auto p-2" required placeholder="Nama" >
+                           <div for="nama_driver" class="">Nama :</div>
+                           <input type="text" name="nama_driver" class="ml-auto p-2" required placeholder="Nama" >
                         </div>
                         <div class="w-full flex my-2">
-                           <div for="no" class="">No Telepon :</div>
-                           <input type="text" name="no" class="ml-auto p-2" required placeholder="No Telepon" >
+                           <div for="no_telp_driver" class="">No Telepon :</div>
+                           <input type="text" name="no_telp_driver" class="ml-auto p-2" required placeholder="No Telepon" >
                         </div>
                         <div class="w-full flex my-2">
-                           <div for="foto" class="">Foto :</div>
-                           <input type="text" name="foto" class="ml-auto p-2" required placeholder="Foto" >
+                           <div for="no_plat_kendaraan" class="">No Plat :</div>
+                           <input type="text" name="no_plat_kendaraan" class="ml-auto p-2" required placeholder="No Plat" >
                         </div>
                         <div class="w-full flex my-2">
-                           <div for="status" class="">No Plat :</div>
-                           <input type="text" name="No Plat" class="ml-auto p-2" required placeholder="No Plat" >
+                           <div for="jenis_kendaraan" class="">Jenis Kendaraan :</div>
+                           <input type="text" name="jenis_kendaraan" class="ml-auto p-2" required placeholder="Jenis Kendaraan" >
                         </div>
                         <div class="w-full flex my-2">
-                           <div for="status" class="">Rating :</div>
-                           <input type="text" name="rating" class="ml-auto p-2" required placeholder="rating" >
-                        </div>
-
-                        <div class="w-full flex my-2">
-                           <div for="lat" class="">Lokasi : </div>
-                           <input type="text" name="lat" class="ml-auto p-2" required placeholder="Lat" >
+                           <div for="rating_driver" class="">Rating :</div>
+                           <input type="text" name="rating_driver" class="ml-auto p-2" required placeholder="Rating" >
                         </div>
                         <div class="w-full flex my-2">
-                           <input type="text" name="long" class="ml-auto p-2" required placeholder="Long" >
+                           <div for="lokasi" class="">Lokasi : </div>
+                           <input type="text" name="latitude_driver" class="ml-auto p-2" required placeholder="Lat" >
+                        </div>
+                        <div class="w-full flex my-2">
+                           <input type="text" name="longitude_driver" class="ml-auto p-2" required placeholder="Long" >
+                        </div>
+                        <div class="w-full flex my-2">
+                           <div for="foto_driver" class="">Foto :</div>
+                           <input type="file" name="foto_driver" class="ml-auto p-2" required placeholder="Foto" >
                         </div>
                         <div class="w-full flex my-2">
                            <button class="mx-auto bg-green-400 p-4 rounded-full">SUBMIT</button>
@@ -134,41 +140,45 @@
                   </div>
                </form>
                <?php else :  ?>
-                <form method="POST" action="">
+                <form method="POST" action="./Controllers/ControllerDriver.php?method=update&id=<?= $value['_id']; ?>" enctype="multipart/form-data">
                   <div class="bg-green-100 w-full h-full p-8">
-                     <div class="text-center text-lg">Tambah Data</div>
+                     <div class="text-center text-lg">Ubah Data</div>
                      <div class="flex flex-col">
+                        <input type="hidden" name="old_foto_driver" value="<?= $value['foto_driver']; ?>">
                         <div class="w-full flex my-2">
                            <div for="id">ID :</div>
-                           <input type="text" name="id" class="ml-auto p-2" required placeholder="ID" >
+                           <input type="text" name="id" class="ml-auto p-2" readonly required placeholder="ID" value="<?= $value['_id']; ?>">
                         </div>
                         <div class="w-full flex my-2">
-                           <div for="nama" class="">Nama :</div>
-                           <input type="text" name="nama" class="ml-auto p-2" required placeholder="Nama" >
+                           <div for="nama_driver" class="">Nama :</div>
+                           <input type="text" name="nama_driver" class="ml-auto p-2" required placeholder="Nama" value="<?= $value['nama_driver']; ?>">
                         </div>
                         <div class="w-full flex my-2">
-                           <div for="no" class="">No Telepon :</div>
-                           <input type="text" name="no" class="ml-auto p-2" required placeholder="No Telepon" >
+                           <div for="no_telp_driver" class="">No Telepon :</div>
+                           <input type="text" name="no_telp_driver" class="ml-auto p-2" required placeholder="No Telepon" value="<?= $value['no_telp_driver']; ?>">
                         </div>
                         <div class="w-full flex my-2">
-                           <div for="foto" class="">Foto :</div>
-                           <input type="text" name="foto" class="ml-auto p-2" required placeholder="Foto" >
+                           <div for="no_plat_kendaraan" class="">No Plat :</div>
+                           <input type="text" name="no_plat_kendaraan" class="ml-auto p-2" required placeholder="No Plat" value="<?= $value['no_plat_kendaraan']; ?>">
                         </div>
                         <div class="w-full flex my-2">
-                           <div for="status" class="">No Plat :</div>
-                           <input type="text" name="No Plat" class="ml-auto p-2" required placeholder="No Plat" >
+                           <div for="jenis_kendaraan" class="">Jenis Kendaraan :</div>
+                           <input type="text" name="jenis_kendaraan" class="ml-auto p-2" required placeholder="Jenis Kendaraan" value="<?= $value['jenis_kendaraan']; ?>">
                         </div>
                         <div class="w-full flex my-2">
-                           <div for="status" class="">Rating :</div>
-                           <input type="text" name="rating" class="ml-auto p-2" required placeholder="rating" >
-                        </div>
-
-                        <div class="w-full flex my-2">
-                           <div for="lat" class="">Lokasi : </div>
-                           <input type="text" name="lat" class="ml-auto p-2" required placeholder="Lat" >
+                           <div for="rating_driver" class="">Rating :</div>
+                           <input type="text" name="rating_driver" class="ml-auto p-2" required placeholder="Rating" value="<?= $value['rating_driver']; ?>">
                         </div>
                         <div class="w-full flex my-2">
-                           <input type="text" name="long" class="ml-auto p-2" required placeholder="Long" >
+                           <div for="lokasi" class="">Lokasi : </div>
+                           <input type="text" name="latitude_driver" class="ml-auto p-2" required placeholder="Lat" value="<?= $value['lokasi_terkini_driver']['latitude']; ?>">
+                        </div>
+                        <div class="w-full flex my-2">
+                           <input type="text" name="longitude_driver" class="ml-auto p-2" required placeholder="Long" value="<?= $value['lokasi_terkini_driver']['longitude']; ?>">
+                        </div>
+                        <div class="w-full flex my-2">
+                           <div for="foto_driver" class="">Foto :</div>
+                           <input type="file" name="foto_driver" class="ml-auto p-2">
                         </div>
                         <div class="w-full flex my-2">
                            <button class="mx-auto bg-green-400 p-4 rounded-full">SUBMIT</button>
