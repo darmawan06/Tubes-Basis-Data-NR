@@ -140,53 +140,55 @@
                   </div>
                </form>
                <?php else :  ?>
-                <form method="POST" action="./Controllers/ControllerDriver.php?method=update&id=<?= $value['_id']; ?>" enctype="multipart/form-data">
-                  <div class="bg-green-100 w-full h-full p-8">
-                     <div class="text-center text-lg">Ubah Data</div>
-                     <div class="flex flex-col">
-                        <input type="hidden" name="old_foto_driver" value="<?= $value['foto_driver']; ?>">
-                        <div class="w-full flex my-2">
-                           <div for="id">ID :</div>
-                           <input type="text" name="id" class="ml-auto p-2" readonly required placeholder="ID" value="<?= $value['_id']; ?>">
-                        </div>
-                        <div class="w-full flex my-2">
-                           <div for="nama_driver" class="">Nama :</div>
-                           <input type="text" name="nama_driver" class="ml-auto p-2" required placeholder="Nama" value="<?= $value['nama_driver']; ?>">
-                        </div>
-                        <div class="w-full flex my-2">
-                           <div for="no_telp_driver" class="">No Telepon :</div>
-                           <input type="text" name="no_telp_driver" class="ml-auto p-2" required placeholder="No Telepon" value="<?= $value['no_telp_driver']; ?>">
-                        </div>
-                        <div class="w-full flex my-2">
-                           <div for="no_plat_kendaraan" class="">No Plat :</div>
-                           <input type="text" name="no_plat_kendaraan" class="ml-auto p-2" required placeholder="No Plat" value="<?= $value['no_plat_kendaraan']; ?>">
-                        </div>
-                        <div class="w-full flex my-2">
-                           <div for="jenis_kendaraan" class="">Jenis Kendaraan :</div>
-                           <input type="text" name="jenis_kendaraan" class="ml-auto p-2" required placeholder="Jenis Kendaraan" value="<?= $value['jenis_kendaraan']; ?>">
-                        </div>
-                        <div class="w-full flex my-2">
-                           <div for="rating_driver" class="">Rating :</div>
-                           <input type="text" name="rating_driver" class="ml-auto p-2" required placeholder="Rating" value="<?= $value['rating_driver']; ?>">
-                        </div>
-                        <div class="w-full flex my-2">
-                           <div for="lokasi" class="">Lokasi : </div>
-                           <input type="text" name="latitude_driver" class="ml-auto p-2" required placeholder="Lat" value="<?= $value['lokasi_terkini_driver']['latitude']; ?>">
-                        </div>
-                        <div class="w-full flex my-2">
-                           <input type="text" name="longitude_driver" class="ml-auto p-2" required placeholder="Long" value="<?= $value['lokasi_terkini_driver']['longitude']; ?>">
-                        </div>
-                        <div class="w-full flex my-2">
-                           <div for="foto_driver" class="">Foto :</div>
-                           <input type="file" name="foto_driver" class="ml-auto p-2">
-                        </div>
-                        <div class="w-full flex my-2">
-                           <button class="mx-auto bg-green-400 p-4 rounded-full">SUBMIT</button>
+                  <?php foreach ($model->selectData($_GET['update_id']) as $value) : ?>
+                  <form method="POST" action="./Controllers/ControllerDriver.php?method=update&id=<?= $value['_id']; ?>" enctype="multipart/form-data">
+                     <div class="bg-green-100 w-full h-full p-8">
+                        <div class="text-center text-lg">Ubah Data</div>
+                        <div class="flex flex-col">
+                           <input type="hidden" name="old_foto_driver" value="<?= $value['foto_driver']; ?>">
+                           <div class="w-full flex my-2">
+                              <div for="id">ID :</div>
+                              <input type="text" name="id" class="ml-auto p-2" readonly required placeholder="ID" value="<?= $value['_id']; ?>">
+                           </div>
+                           <div class="w-full flex my-2">
+                              <div for="nama_driver" class="">Nama :</div>
+                              <input type="text" name="nama_driver" class="ml-auto p-2" required placeholder="Nama" value="<?= $value['nama_driver']; ?>">
+                           </div>
+                           <div class="w-full flex my-2">
+                              <div for="no_telp_driver" class="">No Telepon :</div>
+                              <input type="text" name="no_telp_driver" class="ml-auto p-2" required placeholder="No Telepon" value="<?= $value['no_telp_driver']; ?>">
+                           </div>
+                           <div class="w-full flex my-2">
+                              <div for="no_plat_kendaraan" class="">No Plat :</div>
+                              <input type="text" name="no_plat_kendaraan" class="ml-auto p-2" required placeholder="No Plat" value="<?= $value['no_plat_kendaraan']; ?>">
+                           </div>
+                           <div class="w-full flex my-2">
+                              <div for="jenis_kendaraan" class="">Jenis Kendaraan :</div>
+                              <input type="text" name="jenis_kendaraan" class="ml-auto p-2" required placeholder="Jenis Kendaraan" value="<?= $value['jenis_kendaraan']; ?>">
+                           </div>
+                           <div class="w-full flex my-2">
+                              <div for="rating_driver" class="">Rating :</div>
+                              <input type="text" name="rating_driver" class="ml-auto p-2" required placeholder="Rating" value="<?= $value['rating_driver']; ?>">
+                           </div>
+                           <div class="w-full flex my-2">
+                              <div for="lokasi" class="">Lokasi : </div>
+                              <input type="text" name="latitude_driver" class="ml-auto p-2" required placeholder="Lat" value="<?= $value['lokasi_terkini_driver']['latitude']; ?>">
+                           </div>
+                           <div class="w-full flex my-2">
+                              <input type="text" name="longitude_driver" class="ml-auto p-2" required placeholder="Long" value="<?= $value['lokasi_terkini_driver']['longitude']; ?>">
+                           </div>
+                           <div class="w-full flex my-2">
+                              <div for="foto_driver" class="">Foto :</div>
+                              <input type="file" name="foto_driver" class="ml-auto p-2">
+                           </div>
+                           <div class="w-full flex my-2">
+                              <button class="mx-auto bg-green-400 p-4 rounded-full">SUBMIT</button>
+                           </div>
                         </div>
                      </div>
-                  </div>
-               </form>
-            <?php endif ?>
+                  </form>
+                  <?php endforeach; ?>
+            <?php endif; ?>
          </div>
    </div>
 </body>

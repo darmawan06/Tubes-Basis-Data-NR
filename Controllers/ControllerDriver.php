@@ -165,7 +165,13 @@
         }
 
         public function selectData($id = null){
-            return $this->model->select($id);
+            if(is_null($id)) {
+                return $this->model->select();
+            }
+            else {
+                $data = array("_id" => $id);
+                return $this->model->select($data);
+            }
         }
     }
 
