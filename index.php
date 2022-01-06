@@ -2,6 +2,8 @@
    require 'Models/ModelPelanggan.php';
    require 'Models/ModelDriver.php';
    require 'Models/ModelOrder.php';
+   require 'Models/ModelGopay.php';
+
 ?>
 
 <?php

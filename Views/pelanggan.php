@@ -71,12 +71,12 @@
                      <tr>
                         <td class="border-2"><?= $key+1 ?></td>
                         <td class="border-2 bg-red-100"><?= $value['_id']?></td>
-                        <td class="border-2"><?= $value['nama_penumpang']?></td>
-                        <td class="border-2"><?= $value['no_penumpang']?></td>
-                        <td class="border-2"><?= $value['foto_penumpang']?></td>
-                        <td class="border-2" colspan="1"><?= $value['lokasi_penumpang']['lat']?></td>
-                        <td class="border-2" colspan="1"><?= $value['lokasi_penumpang']['long']?></td>
-                        <td class="border-2"><?= $value['status_penumpang']?></td>
+                        <td class="border-2"><?= $value['nama']?></td>
+                        <td class="border-2"><?= $value['no']?></td>
+                        <td class="border-2"><?= $value['foto']?></td>
+                        <td class="border-2" colspan="1"><?= $value['lokasi']['lat']?></td>
+                        <td class="border-2" colspan="1"><?= $value['lokasi']['long']?></td>
+                        <td class="border-2"><?= $value['status']?></td>
                         <td class="border-2 flex">
                            <a class=" mx-auto" href="Controllers/ControllerPelanggan.php?method=delete&id=<?= $value['_id']?>"><button class="p-2 w-full bg-red-400 hover:bg-green-400">Delete</button></a>
                            <a class=" mx-auto" href="index.php?view=pelanggan&update_id=<?=  $value['_id']?>"><button class="p-2 w-full bg-blue-400 hover:bg-green-400">Update</button></a>
@@ -138,26 +138,26 @@
                            </div>
                            <div class="w-full flex my-2">
                               <div form="nama" class="">Nama :</div>
-                              <input type="text" name="nama" class="ml-auto p-2" value="<?= $value['nama_penumpang'] ?>" required placeholder="Nama" >
+                              <input type="text" name="nama" class="ml-auto p-2" value="<?= $value['nama'] ?>" required placeholder="Nama" >
                            </div>
                            <div class="w-full flex my-2">
                               <div form="no" class="">No Telepon :</div>
-                              <input type="text" name="no" class="ml-auto p-2" value="<?= $value['no_penumpang'] ?>" required placeholder="No Telepon" >
+                              <input type="text" name="no" class="ml-auto p-2" value="<?= $value['no'] ?>" required placeholder="No Telepon" >
                            </div>
                            <div class="w-full flex my-2">
                               <div form="foto" class="">Foto :</div>
-                              <input type="text" name="foto" class="ml-auto p-2" value="<?= $value['foto_penumpang'] ?>" required placeholder="Foto" >
+                              <input type="text" name="foto" class="ml-auto p-2" value="<?= $value['foto'] ?>" required placeholder="Foto" >
                            </div>
                            <div class="w-full flex my-2">
                               <div form="lat" class="">Lokasi : </div>
-                              <input type="text" name="lat" class="ml-auto p-2" value="<?= $value['lokasi_penumpang']['lat'] ?>" required placeholder="Lat" >
+                              <input type="text" name="lat" class="ml-auto p-2" value="<?= $value['lokasi']['lat'] ?>" required placeholder="Lat" >
                            </div>
                            <div class="w-full flex my-2">
-                              <input type="text" name="long" class="ml-auto p-2" value="<?= $value['lokasi_penumpang']['long'] ?>" required placeholder="Long" >
+                              <input type="text" name="long" class="ml-auto p-2" value="<?= $value['lokasi']['long'] ?>" required placeholder="Long" >
                            </div>
                            <div class="w-full flex my-2">
                               <div form="status" class="">Status :</div>
-                              <input type="text" name="status" class="ml-auto p-2" value="<?= $value['status_penumpang'] ?>" required placeholder="Status" >
+                              <input type="text" name="status" class="ml-auto p-2" value="<?= $value['status'] ?>" required placeholder="Status" >
                            </div>
                            <div class="w-full flex my-2">
                               <a href="index.php?view=pelanggan" class="mx-auto p-4 text-blue-800">Tambah Data</a>
