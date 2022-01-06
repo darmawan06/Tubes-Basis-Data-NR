@@ -95,6 +95,11 @@
 			echo "<script>
 				window.location.href = '../index.php?view=order'
 			</script>";
+		}else if ($_GET['method'] == "update") {
+			$control->updateData();
+			echo "<script>
+				window.location.href = '../index.php?view=order'
+			</script>";
 		}
 	}
 
