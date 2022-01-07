@@ -23,32 +23,25 @@
 			}
 		}
 
-		public function updateData($id){
-			$_id = array(
-				"_id" => $id
-			);
-			$data = array();
-			if(isset($_POST['nama'])){
-				array_push($data,["nama_penumpang" => $_POST['nama']]);
-			}
-			if(isset($_POST['no'])){
-				array_push($data, ["no_penumpang" => $_POST['no']]);
-			}
-			if(isset($_POST['foto'])){
-				array_push($data, ["foto_penumpang" => $_POST['foto']]);
-			}
-			if(isset($_POST['lat']) && isset($_POST['long'])){
-				array_push($data, ["lokasi_penumpang" => array(
+		public function updateData(){
+			$_id = array("_id" => $_POST['id']);
+			$data = array(
+				"nama_penumpang" => $_POST['nama'],
+				"no_penumpang" => $_POST['no'],
+				"foto_penumpang" => $_POST['foto'],
+				"lokasi_penumpang" => array(
 					"lat" => $_POST['lat'],
 					"long" => $_POST['long']
-				)
-				]);
-			}
+				),
+				"status_penumpang" => $_POST['status'],
+			);
 			if(isset($_POST['status'])){
 				array_push($data, ["status_penumpang" => $_POST['status']]);
 			}
-			if (count($data) != 0 && !is_null($id)) {
-				$this->model->update($_id,$data[0]);
+			if (count($data) != 0 && !is_null($_id)) {
+				if (!$this->model->update($_id,$data)) {
+					echo "GAGAL";
+				}
 			}
 		}
 
@@ -60,6 +53,11 @@
 
 		public function selectData(){
 			return $this->model->select(NULL);
+		}
+
+		public function selectDataByID($_id){
+			$data = array("_id" => $_id);
+			return $this->model->select($data);
 		}
 	}
 
@@ -73,6 +71,11 @@
 			</script>";
 		}else if ($_GET['method'] == "insert") {
 			$control->insertData();
+			echo "<script>
+				window.location.href = '../index.php?view=pelanggan'
+			</script>";
+		}else if ($_GET['method'] == "update") {
+			$control->updateData();
 			echo "<script>
 				window.location.href = '../index.php?view=pelanggan'
 			</script>";

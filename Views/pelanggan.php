@@ -1,6 +1,6 @@
 <?php
       require 'Controllers/ControllerPelanggan.php';
-      $coba = new ControllerPelanggan();
+      $model = new ControllerPelanggan();
 ?>
 <!DOCTYPE html>
 <html>
@@ -9,81 +9,53 @@
    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-<header class="w-full bg-green-700 flex">
-   <div class="p-4 font-bold text-lg text-green-100">Dashboard</div>
-   <div class="flex p-4 ml-auto">
-      <div class="h-full bg-white px-4 mx-2 rounded-full font-semibold">LOGIN</div>
-      <div class="h-full text-white px-4 mx-2 rounded-full font-semibold">REGISTER</div>
-   </div>
-</header>
-<div class="w-full h-screen flex">
-   <div class="w-1/6 bg-green-700 h-5/6 flex flex-col pr-4">
-      <div class="w-full bg-white my-auto p-4 rounded-r-full text-center hover:bg-green-400"><a href="?view=pelanggan">Penumpang</a></div>
-      <div class="w-full bg-white my-auto p-4 rounded-r-full text-center hover:bg-green-400">Gopay</div>
-      <div class="w-full bg-white my-auto p-4 rounded-r-full text-center hover:bg-green-400">Driver</div>
-      <div class="w-full bg-white my-auto p-4 rounded-r-full text-center hover:bg-green-400">Order</div>
-   </div>
-   <div class="w-5/6 h-5/6 p-8">
-      <div>
-         <div class="text-center text-lg mb-4">Data Penumpang</div>
-         <table class="table-fixed w-full border-4">
-           <thead class="bg-green-100">
-             <tr>
-               <th class="border-2">No</th>
-               <th class="border-2">ID</th>
-               <th class="border-2">Nama</th>
-               <th class="border-2">No Telepon</th>
-               <th class="border-2">Foto</th>
-               <th class="border-2" colspan="2">lokasi</th>
-               <th class="border-2">status</th>
-               <th class="border-2">aksi</th>
-             </tr>
-              <tr>
-               <th class="border-2"></th>
-               <th class="border-2"></th>
-               <th class="border-2"></th>
-               <th class="border-2"></th>
-               <th class="border-2"></th>
-               <th class="border-2" colspan="1">lat</th>
-               <th class="border-2" colspan="1">long</th>
-               <th class="border-2"></th>
-               <th class="border-2"></th>
-             </tr>
-           </thead>
-           <tbody>
-                <?php foreach ($coba->selectData() as $key => $value) :?>
-                  <tr>
-                     <td class="border-2"><?= $key+1 ?></td>
-                     <td class="border-2 bg-red-100"><?= $value['_id']?></td>
-                     <td class="border-2"><?= $value['nama_penumpang']?></td>
-                     <td class="border-2"><?= $value['no_penumpang']?></td>
-                     <td class="border-2"><?= $value['foto_penumpang']?></td>
-                     <td class="border-2" colspan="1"><?= $value['lokasi_penumpang']['lat']?></td>
-                     <td class="border-2" colspan="1"><?= $value['lokasi_penumpang']['long']?></td>
-                     <td class="border-2"><?= $value['status_penumpang']?></td>
-                     <td class="border-2">
-                        <a href="Controllers/ControllerPelanggan.php?method=delete&id=<?= $value['_id']?>"><button class="w-full bg-blue-400 rounded-full hover:bg-green-400">Delete</button></a>
-                     </td>
-                   </tr>
-            <?php endforeach; ?>
-           </tbody>
-        </table>  
+<nav class="flex items-center justify-between flex-wrap bg-gray-800 p-6 fixed w-full z-10 top-0">
+      <div class="flex items-center flex-shrink-0 text-white mr-6">
+         <a class="text-white no-underline hover:text-white hover:no-underline" href="#">
+            <span class="text-2xl pl-2"><i class="em em-grinning"></i> Gojek - Kelompok 9</span>
+         </a>
       </div>
-      <div class="mt-4">
-         <form method="POST" action="Controllers/ControllerPelanggan.php?method=insert">
-            <div class="text-center text-lg mb-4">Tambah Data Penumpang</div>
-            <table class="table-fixed w-full border-4">
+
+      <div class="block lg:hidden">
+         <button id="nav-toggle" class="flex items-center px-3 py-2 border rounded text-gray-500 border-gray-600 hover:text-white hover:border-white">
+            <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
+         </button>
+      </div>
+
+      <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block pt-6 lg:pt-0" id="nav-content">
+         <ul class="list-reset lg:flex justify-end flex-1 items-center">
+            <li class="mr-3">
+               <a class="inline-block py-2 px-4 text-white no-underline" href="?view=pelanggan">Penumpang</a>
+            </li>
+            <li class="mr-3">
+               <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4" href="#">Gopay</a>
+            </li>
+            <li class="mr-3">
+               <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4" href="#">Driver</a>
+            </li>
+            <li class="mr-3">
+               <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4" href="#">Order</a>
+            </li>
+         </ul>
+      </div>
+   </nav>
+   <div class="container shadow-lg mx-auto bg-white mt-24 md:mt-18 flex">
+      <div class="w-4/6 h-5/6 p-8">
+         <div class="text-center text-lg mb-4">Data Penumpang</div>
+            <table class="table w-full border-4">
               <thead class="bg-green-100">
                 <tr>
-                  <th class="border-2">ID (unique)</th>
+                  <th class="border-2">No</th>
+                  <th class="border-2">ID</th>
                   <th class="border-2">Nama</th>
                   <th class="border-2">No Telepon</th>
                   <th class="border-2">Foto</th>
                   <th class="border-2" colspan="2">lokasi</th>
-                  <th class="border-2">Status</th>
+                  <th class="border-2">status</th>
                   <th class="border-2">aksi</th>
                 </tr>
                  <tr>
+                  <th class="border-2"></th>
                   <th class="border-2"></th>
                   <th class="border-2"></th>
                   <th class="border-2"></th>
@@ -95,20 +67,108 @@
                 </tr>
               </thead>
               <tbody>
-                  <tr>
-                     <td ><input class="border-blue-100 border-2 w-full" type="text" placeholder="input" name="id"></td>
-                     <td ><input class="border-blue-100 border-2 w-full" type="text" placeholder="input" name="nama"></td>
-                     <td ><input class="border-blue-100 border-2 w-full" type="text" placeholder="input" name="no"></td>
-                     <td ><input class="border-blue-100 border-2 w-full" type="text" placeholder="input" name="foto"></td>
-                     <td ><input class="border-blue-100 border-2 w-full" type="text" placeholder="input" name="lat"></td>
-                     <td ><input class="border-blue-100 border-2 w-full" type="text" placeholder="input" name="long"></td>
-                     <td ><input class="border-blue-100 border-2 w-full" type="text" placeholder="input" name="status"></td>
-                     <td><button class="w-full bg-blue-400 rounded-full hover:bg-green-400">Kirim</button></td>
-                  </tr>                 
+                   <?php foreach ($model->selectData() as $key => $value) :?>
+                     <tr>
+                        <td class="border-2"><?= $key+1 ?></td>
+                        <td class="border-2 bg-red-100"><?= $value['_id']?></td>
+                        <td class="border-2"><?= $value['nama_penumpang']?></td>
+                        <td class="border-2"><?= $value['no_penumpang']?></td>
+                        <td class="border-2"><?= $value['foto_penumpang']?></td>
+                        <td class="border-2" colspan="1"><?= $value['lokasi_penumpang']['lat']?></td>
+                        <td class="border-2" colspan="1"><?= $value['lokasi_penumpang']['long']?></td>
+                        <td class="border-2"><?= $value['status_penumpang']?></td>
+                        <td class="border-2 flex">
+                           <a class=" mx-auto" href="Controllers/ControllerPelanggan.php?method=delete&id=<?= $value['_id']?>"><button class="p-2 w-full bg-red-400 hover:bg-green-400">Delete</button></a>
+                           <a class=" mx-auto" href="index.php?view=pelanggan&update_id=<?=  $value['_id']?>"><button class="p-2 w-full bg-blue-400 hover:bg-green-400">Update</button></a>
+                        </td>
+                      </tr>
+               <?php endforeach; ?>
               </tbody>
-            </table>
-      </div>
+           </table>  
+         </div>
+         <div class="w-2/6 h-5/6 mt-4">
+            <?php if (!isset($_GET['update_id'])): ?>
+               <form method="POST" action="Controllers/ControllerPelanggan.php?method=insert">
+                  <div class="bg-green-100 w-full h-full p-8">
+                     <div class="text-center text-lg">Tambah Data</div>
+                     <div class="flex flex-col">
+                        <div class="w-full flex my-2">
+                           <div form="id">ID :</div>
+                           <input type="text" name="id" class="ml-auto p-2" required placeholder="ID" >
+                        </div>
+                        <div class="w-full flex my-2">
+                           <div form="nama" class="">Nama :</div>
+                           <input type="text" name="nama" class="ml-auto p-2" required placeholder="Nama" >
+                        </div>
+                        <div class="w-full flex my-2">
+                           <div form="no" class="">No Telepon :</div>
+                           <input type="text" name="no" class="ml-auto p-2" required placeholder="No Telepon" >
+                        </div>
+                        <div class="w-full flex my-2">
+                           <div form="foto" class="">Foto :</div>
+                           <input type="text" name="foto" class="ml-auto p-2" required placeholder="Foto" >
+                        </div>
+                        <div class="w-full flex my-2">
+                           <div form="lat" class="">Lokasi : </div>
+                           <input type="text" name="lat" class="ml-auto p-2" required placeholder="Lat" >
+                        </div>
+                        <div class="w-full flex my-2">
+                           <input type="text" name="long" class="ml-auto p-2" required placeholder="Long" >
+                        </div>
+                        <div class="w-full flex my-2">
+                           <div form="status" class="">Status :</div>
+                           <input type="text" name="status" class="ml-auto p-2" required placeholder="Status" >
+                        </div>
+                        <div class="w-full flex my-2">
+                           <button class="mx-auto bg-green-400 p-4 rounded-full">SUBMIT</button>
+                        </div>
+
+                     </div>
+                  </div>
+               </form>
+               <?php else :  ?>
+                  <?php foreach ($model->selectDataByID($_GET['update_id']) as $key => $value) : ?>
+                     <form method="POST" action="Controllers/ControllerPelanggan.php?method=update">
+                     <div class="bg-green-100 w-full h-full p-8">
+                        <div class="text-center text-lg">Update Data</div>
+                        <div class="flex flex-col">
+                           <div class="w-full flex my-2">
+                              <div form="id">ID :</div>
+                              <input type="text" name="id" class="ml-auto p-2" value="<?= $value['_id'] ?>" readonly required placeholder="ID" >
+                           </div>
+                           <div class="w-full flex my-2">
+                              <div form="nama" class="">Nama :</div>
+                              <input type="text" name="nama" class="ml-auto p-2" value="<?= $value['nama_penumpang'] ?>" required placeholder="Nama" >
+                           </div>
+                           <div class="w-full flex my-2">
+                              <div form="no" class="">No Telepon :</div>
+                              <input type="text" name="no" class="ml-auto p-2" value="<?= $value['no_penumpang'] ?>" required placeholder="No Telepon" >
+                           </div>
+                           <div class="w-full flex my-2">
+                              <div form="foto" class="">Foto :</div>
+                              <input type="text" name="foto" class="ml-auto p-2" value="<?= $value['foto_penumpang'] ?>" required placeholder="Foto" >
+                           </div>
+                           <div class="w-full flex my-2">
+                              <div form="lat" class="">Lokasi : </div>
+                              <input type="text" name="lat" class="ml-auto p-2" value="<?= $value['lokasi_penumpang']['lat'] ?>" required placeholder="Lat" >
+                           </div>
+                           <div class="w-full flex my-2">
+                              <input type="text" name="long" class="ml-auto p-2" value="<?= $value['lokasi_penumpang']['long'] ?>" required placeholder="Long" >
+                           </div>
+                           <div class="w-full flex my-2">
+                              <div form="status" class="">Status :</div>
+                              <input type="text" name="status" class="ml-auto p-2" value="<?= $value['status_penumpang'] ?>" required placeholder="Status" >
+                           </div>
+                           <div class="w-full flex my-2">
+                              <a href="index.php?view=pelanggan" class="mx-auto p-4 text-blue-800">Tambah Data</a>
+                              <button class="mx-auto bg-green-400 p-4 rounded-full">SUBMIT</button>
+                           </div>
+                        </div>
+                     </div>
+                  </form>
+                  <?php endforeach ?>
+            <?php endif ?>
+         </div>
    </div>
-</div>
 </body>
 </html>
