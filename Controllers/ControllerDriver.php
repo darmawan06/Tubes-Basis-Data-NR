@@ -13,7 +13,7 @@
                     echo "FOTO TIDAK SESUAI FORMAT";
                 }
                 else {
-                    $dir = "../assest/foto_driver/";
+                    $dir = "../assets/foto_driver/";
                     
                     $namaFoto = $_FILES['foto_driver']['name'];
                     $arrNamaFoto = explode('.', $namaFoto);
@@ -75,7 +75,7 @@
             );
 
             
-            $dir ="../assest/foto_driver/";
+            $dir ="../assets/foto_driver/";
             $old_foto = $_POST['old_foto_driver'];
 			if(file_exists($_FILES['foto_driver']['tmp_name']) && is_uploaded_file($_FILES['foto_driver']['tmp_name'])){
                 $allowed_mimetype = ['image/png', 'image/jpg', 'image/jpeg'];
@@ -158,7 +158,7 @@
                 $foto = $d['foto_driver'];
             }
 
-            $dir ="../assest/foto_driver/";
+            $dir ="../assets/foto_driver/";
             unlink($dir.$foto);
 
             $this->model->delete($id_driver);
