@@ -1,6 +1,6 @@
 <?php
-      require 'Controllers/ControllerPelanggan.php';
-      $model = new ControllerPelanggan();
+      require 'Controllers/ControllerGopay.php';
+      $model = new ControllerGopay();
 ?>
 <!DOCTYPE html>
 <html>
@@ -64,13 +64,19 @@
                    <?php foreach ($model->selectData() as $key => $value) :?>
                      <tr>
                         <td class="border-2"><?= $key+1 ?></td>
-                        <td class="border-2 bg-red-100"><?= $value['_id']?></td>
-                        <td class="border-2"><?= $value['nama_penumpang']?></td>
-                        <td class="border-2"><?= $value['nama_penumpang']?></td>
-                        <td class="border-2"><?= $value['no_penumpang']?></td>
+                        <td class="border-2 bg-red-100"><?= $value['_id']?></td>                
+                        <?php if ((array)$value['user']) :?>
+                           <?php foreach ($value['user'] as $key => $user): ?>
+                              <td class="border-2"><?= $user['nama']?></td>  
+                           <?php endforeach ?>
+                        <?php else: ?>
+                              <td class="border-2">Tidak Ditemukan</td>  
+                        <?php endif ?>
+                        <td class="border-2"><?= $value['saldo']?></td>
+                        <td class="border-2"><?= $value['jenis_gopay']?></td>
                         <td class="border-2 flex">
-                           <a class=" mx-auto" href=""><button class="p-2 w-full bg-red-400 hover:bg-green-400">Delete</button></a>
-                           <a class=" mx-auto" href=""><button class="p-2 w-full bg-blue-400 hover:bg-green-400">Update</button></a>
+                           <a class=" mx-auto" href="Controllers/ControllerGopay.php?method=delete&id=<?= $value['_id']?>"><button class="p-2 w-full bg-red-400 hover:bg-green-400">Delete</button></a>
+                           <a class=" mx-auto" href="index.php?view=gopay&update_id=<?= $value['_id']?>"><button class="p-2 w-full bg-blue-400 hover:bg-green-400">Update</button></a>
                         </td>
                       </tr>
                <?php endforeach; ?>
@@ -79,7 +85,7 @@
          </div>
          <div class="w-2/6 h-5/6 mt-4">
             <?php if (!isset($_GET['update_id'])): ?>
-               <form method="POST" action="Controllers/ControllerPelanggan.php?method=insert">
+               <form method="POST" action="Controllers/ControllerGopay.php?method=insert">
                   <div class="bg-green-100 w-full h-full p-8">
                      <div class="text-center text-lg">Tambah Data</div>
                      <div class="flex flex-col">
@@ -93,11 +99,11 @@
                         </div>
                         <div class="w-full flex my-2">
                            <div form="Saldo" class="">Saldo Gopay :</div>
-                           <input type="text" name="Saldo" class="ml-auto p-2" required placeholder="Saldo Gopay" >
+                           <input type="text" name="saldo" class="ml-auto p-2" required placeholder="Saldo Gopay" >
                         </div>
                         <div class="w-full flex my-2">
                            <div form="Jenis Gopay" class="">Jenis Gopay :</div>
-                           <input type="text" name="Jenis Gopay" class="ml-auto p-2" required placeholder="Jenis Gopay" >
+                           <input type="text" name="jenis_gopay" class="ml-auto p-2" required placeholder="Jenis Gopay" >
                         </div>
                         <div class="w-full flex my-2">
                            <button class="mx-auto bg-green-400 p-4 rounded-full">SUBMIT</button>
@@ -107,33 +113,36 @@
                   </div>
                </form>
                <?php else :  ?>
-               <form method="POST" action="Controllers/ControllerPelanggan.php?method=insert">
-                  <div class="bg-green-100 w-full h-full p-8">
-                     <div class="text-center text-lg">Tambah Data</div>
-                     <div class="flex flex-col">
-                        <div class="w-full flex my-2">
-                           <div form="id">ID :</div>
-                           <input type="text" name="id" class="ml-auto p-2" required placeholder="ID" >
-                        </div>
-                        <div class="w-full flex my-2">
-                           <div form="id_user" class="">id_user :</div>
-                           <input type="text" name="id_user" class="ml-auto p-2" required placeholder="id_user" >
-                        </div>
-                        <div class="w-full flex my-2">
-                           <div form="Saldo" class="">Saldo Gopay :</div>
-                           <input type="text" name="Saldo" class="ml-auto p-2" required placeholder="Saldo Gopay" >
-                        </div>
-                        <div class="w-full flex my-2">
-                           <div form="Jenis Gopay" class="">Jenis Gopay :</div>
-                           <input type="text" name="Jenis Gopay" class="ml-auto p-2" required placeholder="Jenis Gopay" >
-                        </div>
-                        <div class="w-full flex my-2">
-                           <button class="mx-auto bg-green-400 p-4 rounded-full">SUBMIT</button>
-                        </div>
+                  <?php foreach ($model->selectDataByID($_GET['update_id']) as $key => $value) : ?>
+                     <form method="POST" action="Controllers/ControllerGopay.php?method=update">
+                        <div class="bg-green-100 w-full h-full p-8">
+                           <div class="text-center text-lg">Update Data</div>
+                           <div class="flex flex-col">
+                              <div class="w-full flex my-2">
+                                 <div form="id">ID :</div>
+                                 <input type="text" value="<?= $value['_id'] ?>" name="id" class="ml-auto p-2" required readonly placeholder="ID" >
+                              </div>
+                              <div class="w-full flex my-2">
+                                 <div form="id_user" class="">id_user :</div>
+                                 <input type="text" value="<?= $value['id_user'] ?>" name="id_user" class="ml-auto p-2" required placeholder="id_user" >
+                              </div>
+                              <div class="w-full flex my-2">
+                                 <div form="Saldo" class="">Saldo Gopay :</div>
+                                 <input type="text" value="<?= $value['saldo'] ?>" name="saldo" class="ml-auto p-2" required placeholder="Saldo Gopay" >
+                              </div>
+                              <div class="w-full flex my-2">
+                                 <div form="Jenis Gopay" class="">Jenis Gopay :</div>
+                                 <input type="text" value="<?= $value['jenis_gopay'] ?>" name="jenis_gopay" class="ml-auto p-2" required placeholder="Jenis Gopay" >
+                              </div>
+                              <div class="w-full flex my-2">
+                                    <a href="index.php?view=gopay" class="mx-auto p-4 text-blue-800">Tambah Data</a>
+                                    <button class="mx-auto bg-green-400 p-4 rounded-full">SUBMIT</button>
+                              </div>
 
-                     </div>
-                  </div>
-               </form>
+                           </div>
+                        </div>
+                     </form>
+                  <?php endforeach?>
             <?php endif ?>
          </div>
    </div>
