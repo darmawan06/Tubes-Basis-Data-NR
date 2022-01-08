@@ -20,7 +20,7 @@
                     $namaFoto = round(microtime(true)).'.'.$arrNamaFoto[1];
 
                     $data = array(
-                        "_id" => $_POST['id'],
+                        "_id" => "D".$_POST['id'],
                         "nama_driver" => $_POST['nama_driver'],
                         "no_telp_driver" => $_POST['no_telp_driver'],
                         "foto_driver" => $namaFoto,
@@ -96,7 +96,7 @@
                 $namaFoto = $old_foto;
             }
             $data = array(
-                "_id" => $_POST['id'],
+                "_id" => "D".$_POST['id'],
                 "nama_driver" => $_POST['nama_driver'],
                 "no_telp_driver" => $_POST['no_telp_driver'],
                 "foto_driver" => $namaFoto,

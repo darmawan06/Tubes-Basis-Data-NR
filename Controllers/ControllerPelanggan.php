@@ -8,7 +8,7 @@
 
 		public function insertData(){
 			$data = array(
-				"_id" => $_POST['id'],
+				"_id" => "P".$_POST['id'],
 				"nama" => $_POST['nama'],
 				"no" => $_POST['no'],
 				"foto" => $_POST['foto'],
@@ -24,7 +24,7 @@
 		}
 
 		public function updateData(){
-			$_id = array("_id" => $_POST['id']);
+			$_id = array("_id" => "P".$_POST['id']);
 			$data = array(
 				"nama" => $_POST['nama'],
 				"no" => $_POST['no'],

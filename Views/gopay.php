@@ -61,28 +61,44 @@
                 </tr>
               </thead>
               <tbody>
-                   <?php foreach ($model->selectData() as $key => $value) :?>
-                     <tr>
-                        <td class="border-2"><?= $key+1 ?></td>
-                        <td class="border-2 bg-red-100"><?= $value['_id']?></td>                
-                        <?php if ((array)$value['user']) :?>
-                           <?php foreach ($value['user'] as $key => $user): ?>
-                              <td class="border-2"><?= $user['nama']?></td>  
-                           <?php endforeach ?>
-                        <?php else: ?>
-                              <td class="border-2">Tidak Ditemukan</td>  
-                        <?php endif ?>
-                        <td class="border-2"><?= $value['saldo']?></td>
-                        <td class="border-2"><?= $value['jenis_gopay']?></td>
-                        <td class="border-2 flex">
-                           <a class=" mx-auto" href="Controllers/ControllerGopay.php?method=delete&id=<?= $value['_id']?>"><button class="p-2 w-full bg-red-400 hover:bg-green-400">Delete</button></a>
-                           <a class=" mx-auto" href="index.php?view=gopay&update_id=<?= $value['_id']?>"><button class="p-2 w-full bg-blue-400 hover:bg-green-400">Update</button></a>
-                        </td>
-                      </tr>
+               <?php foreach ($model->selectData('pelanggan') as $key => $value) :?>
+                     <?php if ((array)$value['user']) :?>
+                        <tr>
+                           <td class="border-2"><?= $key+1 ?></td>
+                           <td class="border-2 bg-red-100"><?= $value['_id']?></td>                
+                              <?php foreach ($value['user'] as $key => $user): ?>
+                                 <td class="border-2"><?= $user['nama']?></td>  
+                              <?php endforeach ?>
+                           <td class="border-2"><?= $value['saldo']?></td>
+                           <td class="border-2"><?= $value['jenis_gopay']?></td>
+                           <td class="border-2 flex">
+                              <a class=" mx-auto" href="Controllers/ControllerGopay.php?method=delete&id=<?= $value['_id']?>"><button class="p-2 w-full bg-red-400 hover:bg-green-400">Delete</button></a>
+                              <a class=" mx-auto" href="index.php?view=gopay&update_id=<?= $value['_id']?>"><button class="p-2 w-full bg-blue-400 hover:bg-green-400">Update</button></a>
+                           </td>
+                         </tr>
+                     <?php endif ?>
+               <?php endforeach; ?>
+                <?php foreach ($model->selectData('driver') as $key => $value) :?>
+                     <?php if ((array)$value['user']) :?>
+                        <tr>
+                           <td class="border-2"><?= $key+1 ?></td>
+                           <td class="border-2 bg-red-100"><?= $value['_id']?></td>                
+                              <?php foreach ($value['user'] as $key => $user): ?>
+                                 <td class="border-2"><?= $user['nama_driver']?></td>  
+                              <?php endforeach ?>
+                           <td class="border-2"><?= $value['saldo']?></td>
+                           <td class="border-2"><?= $value['jenis_gopay']?></td>
+                           <td class="border-2 flex">
+                              <a class=" mx-auto" href="Controllers/ControllerGopay.php?method=delete&id=<?= $value['_id']?>"><button class="p-2 w-full bg-red-400 hover:bg-green-400">Delete</button></a>
+                              <a class=" mx-auto" href="index.php?view=gopay&update_id=<?= $value['_id']?>"><button class="p-2 w-full bg-blue-400 hover:bg-green-400">Update</button></a>
+                           </td>
+                         </tr>
+                     <?php endif ?>
                <?php endforeach; ?>
               </tbody>
            </table>  
          </div>
+
          <div class="w-2/6 h-5/6 mt-4">
             <?php if (!isset($_GET['update_id'])): ?>
                <form method="POST" action="Controllers/ControllerGopay.php?method=insert">

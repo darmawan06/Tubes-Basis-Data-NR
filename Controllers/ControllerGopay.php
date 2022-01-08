@@ -38,11 +38,11 @@
 			$this->model->delete($data);
 		}
 
-		public function selectData(){
+		public function selectData($form){
 			$data = [
 			    [
 			      '$lookup' => [
-			          'from' => 'pelanggan',
+			          'from' => $form,
 			          'localField' => 'id_user',
 			          'foreignField' => '_id',
 			          'as' => 'user'
