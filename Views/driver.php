@@ -77,15 +77,15 @@
                         <td class="border-2 bg-red-100"><?= $value['_id']?></td>
                         <td class="border-2"><?= $value['nama_driver']?></td>
                         <td class="border-2"><?= $value['no_telp_driver']?></td>
-                        <td class="border-2"><img src="<?= 'src/foto_driver/'.$value['foto_driver']?>" alt="" width="80"></td>
+                        <td class="border-2"><img src="<?= 'assest/foto_driver/'.$value['foto_driver']?>" alt="" width="80"></td>
                         <td class="border-2"><?= $value['no_plat_kendaraan']?></td>
                         <td class="border-2"><?= $value['jenis_kendaraan']?></td>
                         <td class="border-2"><?= $value['rating_driver']?></td>
                         <td class="border-2" colspan="1"><?= $value['lokasi_terkini_driver']['latitude']?></td>
                         <td class="border-2" colspan="1"><?= $value['lokasi_terkini_driver']['longitude']?></td>
                         <td class="border-2 flex">
-                           <a class=" mx-auto" href="Controllers/ControllerDriver.php?method=delete&id=<?= $value['_id']?>"><button class="p-2 w-full bg-red-400 hover:bg-green-400">Delete</button></a>
-                           <a class=" mx-auto" href="index.php?view=driver&update_id=<?= $value['_id']?>"><button class="p-2 w-full bg-blue-400 hover:bg-green-400">Update</button></a>
+                           <a class=" mx-auto" href=""><button class="p-2 w-full bg-red-400 hover:bg-green-400">Delete</button></a>
+                           <a class=" mx-auto" href=""><button class="p-2 w-full bg-blue-400 hover:bg-green-400">Update</button></a>
                         </td>
                       </tr>
                <?php endforeach; ?>

@@ -13,7 +13,7 @@
                     echo "FOTO TIDAK SESUAI FORMAT";
                 }
                 else {
-                    $dir = "../src/foto_driver/";
+                    $dir = "../assest/foto_driver/";
                     
                     // your file
                     $namaFoto = $_FILES['foto_driver']['name'];
@@ -90,7 +90,7 @@
             );
 
             
-            $dir = "../src/foto_driver/";
+            $dir ="../assest/foto_driver/";
             $old_foto = $_POST['old_foto_driver'];
 			if(file_exists($_FILES['foto_driver']['tmp_name']) && is_uploaded_file($_FILES['foto_driver']['tmp_name'])){
                 $allowed_mimetype = ['image/png', 'image/jpg', 'image/jpeg'];
@@ -174,7 +174,7 @@
                 $foto = $d['foto_driver'];
             }
 
-            $dir = "../src/foto_driver/";
+            $dir ="../assest/foto_driver/";
             unlink($dir.$foto);
 
             $this->model->delete($id_driver);
@@ -200,9 +200,9 @@
 			</script>";
 		}else if($_GET['method'] == 'update') {
             $control->updateData($_GET['id']);
-			// echo "<script>
-			// 	window.location.href = '../index.php?view=driver'
-			// </script>";
+			echo "<script>
+				window.location.href = '../index.php?view=driver'
+			</script>";
         }
 	}
 
