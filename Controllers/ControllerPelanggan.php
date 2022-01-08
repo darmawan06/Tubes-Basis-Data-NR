@@ -24,7 +24,7 @@
 		}
 
 		public function updateData(){
-			$_id = array("_id" => "P".$_POST['id']);
+			$_id = array("_id" => $_POST['id']);
 			$data = array(
 				"nama" => $_POST['nama'],
 				"no" => $_POST['no'],

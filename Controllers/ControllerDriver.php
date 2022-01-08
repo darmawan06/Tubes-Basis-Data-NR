@@ -96,7 +96,7 @@
                 $namaFoto = $old_foto;
             }
             $data = array(
-                "_id" => "D".$_POST['id'],
+                "_id" => $_POST['id'],
                 "nama_driver" => $_POST['nama_driver'],
                 "no_telp_driver" => $_POST['no_telp_driver'],
                 "foto_driver" => $namaFoto,
