@@ -77,7 +77,7 @@
                         <td class="border-2 bg-red-100"><?= $value['_id']?></td>
                         <td class="border-2"><?= $value['nama_driver']?></td>
                         <td class="border-2"><?= $value['no_telp_driver']?></td>
-                        <td class="border-2"><img src="<?= 'assest/foto_driver/'.$value['foto_driver']?>" alt="" width="80"></td>
+                        <td class="border-2"><img src="<?= 'assets/foto_driver/'.$value['foto_driver']?>" alt="" width="80"></td>
                         <td class="border-2"><?= $value['no_plat_kendaraan']?></td>
                         <td class="border-2"><?= $value['jenis_kendaraan']?></td>
                         <td class="border-2"><?= $value['rating_driver']?></td>
