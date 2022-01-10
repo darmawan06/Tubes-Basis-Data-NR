@@ -1,6 +1,10 @@
 <?php
       require 'Controllers/ControllerOrder.php';
+      require 'Controllers/ControllerPelanggan.php';
+      require 'Controllers/ControllerDriver.php';
       $model = new ControllerOrder();
+      $modelPenumpang = new ControllerPelanggan();
+      $modelDriver = new ControllerDriver();
 ?>
 <!DOCTYPE html>
 <html>
@@ -96,6 +100,8 @@
             <?php endforeach; ?>
               </tbody>
            </table>  
+         <span><i><br>*Saat melakukan insert maka data saldo gopay penumpang berkurang dan saldo gopay driver akan bertambah, saat melakukan update saldo penumpang akan di kembalikan ke awal (biaya order + saldo penumpang) dan saldo driver akan di kembalikan ke awal (biaya order - saldo driver), jika saldo sudah kembali ke awal lalu di hitung kembali seperti insert data </i></span>
+         <span><i><br>*Jika Saldo Penumpang tidak cukup maka status order akan 'Gagal Pembayaran' dan saldo tidak akan bertambah atau berkurang</i></span>
       </div>
       <div class="w-full h-5/6 mt-4">
          <?php if (!isset($_GET['update_id'])): ?>
@@ -103,25 +109,28 @@
                <div class="bg-green-100 w-2/6 mx-auto h-full p-8">
                   <div class="text-center text-lg">Tambah Data Order</div>
                   <div class="flex flex-col">
-                     <div class="w-full flex my-2">
-                        <div form="id">ID :</div>
-                        <input type="text" name="id" class="ml-auto p-2" required placeholder="ID" >
-                     </div>
+
                      <div class="w-full flex my-2">
                         <div form="ID Penumpang" class="">ID Penumpang :</div>
-                        <input type="text" name="idPenumpang" class="ml-auto p-2" required placeholder="ID Penumpang" >
+                        <select name="idPenumpang" class="ml-auto p-2 w-60 bg-white" required>
+                           <option value="" selected="selected">Pilih Penumpang</option>
+                           <?php foreach ($modelPenumpang->selectData(NULL) as $key => $value):?>
+                              <option value="<?= $value['_id'] ?>"><?= $value['_id'] ?>/<?= $value['nama'] ?></option>
+                           <?php endforeach?>
+                        </select>
                      </div>
                      <div class="w-full flex my-2">
                         <div form="ID Driver" class="">ID Driver</div>
-                        <input type="text" name="idDriver" class="ml-auto p-2" required placeholder="ID Driver" >
+                           <select name="idDriver" class="ml-auto p-2 w-60 bg-white" required>
+                           <option value="" selected="selected">Pilih Driver</option>
+                           <?php foreach ($modelDriver->selectData(NULL) as $key => $value):?>
+                              <option value="<?= $value['_id'] ?>"><?= $value['_id'] ?>/<?= $value['nama_driver'] ?></option>
+                           <?php endforeach?>
+                           </select>
                      </div>
                      <div class="w-full flex my-2">
                         <div form="waktu" class="">Waktu Order :</div>
                         <input type="text" name="waktu" class="ml-auto p-2" required placeholder="Waktu" >
-                     </div>
-                     <div class="w-full flex my-2">
-                        <div form="Status" class="">Status Order : </div>
-                        <input type="text" name="status" class="ml-auto p-2" required placeholder="Status" >
                      </div>
                      <div class="w-full flex my-2">
                         <div form="Rating" class="">Rating Perjalanan : </div>
@@ -170,43 +179,55 @@
                   </div>
             </form>
             <?php else :  ?>
-               <?php foreach ($model->selectDataByID($_GET['update_id']) as $key => $value) : ?>
-                  <form method="POST" action="Controllers/ControllerOrder.php?method=update">
+               <?php $data = $model->selectDataByID($_GET['update_id']); ?>
+                  <form method="POST" class="flex" action="Controllers/ControllerOrder.php?method=update">
                      <div class="bg-green-100 w-2/6 mx-auto h-full p-8">
                         <div class="text-center text-lg">Update Data</div>
                         <div class="flex flex-col">
                            <div class="w-full flex my-2">
                               <div form="id">ID :</div>
-                              <input type="text" name="id" class="ml-auto p-2" value="<?= $value['_id'] ?>" readonly required placeholder="ID" >
+                              <input type="text" name="id" class="ml-auto p-2" value="<?= $data['_id'] ?>" readonly required placeholder="ID" >
                            </div>
                            <div class="w-full flex my-2">
                               <div form="ID Penumpang" class="">ID Penumpang :</div>
-                              <input type="text" name="idPenumpang" class="ml-auto p-2" value="<?= $value['id_penumpang'] ?>" required placeholder="ID Penumpang" >
+                               <select name="idPenumpang" class="ml-auto p-2 w-60 bg-white">
+                                    <?php foreach ($modelPenumpang->selectData(NULL) as $key => $value):?>
+                                       <?php if($value['_id'] == $data['id_penumpang']) :?>
+                                          <option value="<?= $value['_id'] ?>" selected='selected'><?= $value['_id'] ?>/<?= $value['nama'] ?></option>
+                                       <?php else:?>
+                                          <option value="<?= $value['_id'] ?>" ><?= $value['_id'] ?>/<?= $value['nama'] ?></option>
+                                       <?php endif ?>
+                                    <?php endforeach?>
+                                 </select>
                            </div>
                            <div class="w-full flex my-2">
                               <div form="ID Driver" class="">ID Driver</div>
-                              <input type="text" name="idDriver" class="ml-auto p-2" value="<?= $value['id_driver'] ?>" required placeholder="ID Driver" >
+                               <select name="idDriver" class="ml-auto p-2 w-60 bg-white">
+                                    <?php foreach ($modelDriver->selectData(NULL) as $key => $value):?>
+                                       <?php if($value['_id'] == $data['id_driver']) :?>
+                                          <option value="<?= $value['_id'] ?>" selected='selected'><?= $value['_id'] ?>/<?= $value['nama_driver'] ?></option>
+                                       <?php else:?>
+                                          <option value="<?= $value['_id'] ?>" ><?= $value['_id'] ?>/<?= $value['nama'] ?></option>
+                                       <?php endif ?>
+                                    <?php endforeach?>
+                                 </select>
                            </div>
                            <div class="w-full flex my-2">
                               <div form="waktu" class="">Waktu Order :</div>
-                              <input type="text" name="waktu" class="ml-auto p-2" value="<?= $value['waktu_order'] ?>" required placeholder="Waktu" >
-                           </div>
-                           <div class="w-full flex my-2">
-                              <div form="Status" class="">Status Order : </div>
-                              <input type="text" name="status" class="ml-auto p-2" value="<?= $value['status_order'] ?>" required placeholder="Status" >
+                              <input type="text" name="waktu" class="ml-auto p-2" value="<?= $data['waktu_order'] ?>" required placeholder="Waktu" >
                            </div>
                            <div class="w-full flex my-2">
                               <div form="Rating" class="">Rating Perjalanan : </div>
-                              <input type="text" name="rating" class="ml-auto p-2" value="<?= $value['rating_perjalanan'] ?>" required placeholder="Rating" >
+                              <input type="text" name="rating" class="ml-auto p-2" value="<?= $data['rating_perjalanan'] ?>" required placeholder="Rating" >
                            </div>
                            <div class="w-full flex my-2">
                               <div form="Jumlah XP" class="">Jumlah XP: </div>
-                              <input type="text" name="xp" class="ml-auto p-2" value="<?= $value['jumlah_xp'] ?>" required placeholder="Jumlah XP" >
+                              <input type="text" name="xp" class="ml-auto p-2" value="<?= $data['jumlah_xp'] ?>" required placeholder="Jumlah XP" >
                            </div>
 
                            <div class="w-full flex my-2">
                               <div form="Metode Pembayaran" class="">Metode Pembayaran :</div>
-                              <input type="text" name="metode" class="ml-auto p-2" value="<?= $value['metode_pembayaran'] ?>" required placeholder="metode" >
+                              <input type="text" name="metode" class="ml-auto p-2" value="<?= $data['metode_pembayaran'] ?>" required placeholder="metode" >
                            </div>
                         </div>
                      </div>
@@ -216,25 +237,25 @@
                            <div class="flex flex-col">
                               <div class="w-full flex my-2">
                                  <div form="Lokasi Jemput">Lokasi Jemput :</div>
-                                 <input type="text" name="latJemput" class="ml-auto p-2" value="<?= $value['perjalanan']['lokasi_tujuan']['lat'] ?>" required placeholder="lat_jemput" >
+                                 <input type="text" name="latJemput" class="ml-auto p-2" value="<?= $data['perjalanan']['lokasi_jemput']['lat'] ?>" required placeholder="lat_jemput" >
                               </div>
                               <div class="w-full flex my-2">
-                                 <input type="text" name="longJemput" class="ml-auto p-2" value="<?= $value['perjalanan']['lokasi_tujuan']['long'] ?>" required placeholder="long_jemput" >
+                                 <input type="text" name="longJemput" class="ml-auto p-2" value="<?= $data['perjalanan']['lokasi_jemput']['long'] ?>" required placeholder="long_jemput" >
                               </div>
                               <div class="w-full flex my-2">
                                  <div form="Lokasi Tujuan">Lokasi Tujuan :</div>
-                                 <input type="text" name="latTujuan" class="ml-auto p-2" value="<?= $value['perjalanan']['lokasi_tujuan']['lat'] ?>" required placeholder="lat_tujuan" >
+                                 <input type="text" name="latTujuan" class="ml-auto p-2" value="<?= $data['perjalanan']['lokasi_tujuan']['lat'] ?>" required placeholder="lat_tujuan" >
                               </div>
                               <div class="w-full flex my-2">
-                                 <input type="text" name="longTujuan" class="ml-auto p-2" value="<?= $value['perjalanan']['lokasi_tujuan']['long'] ?>" required placeholder="long_tujuan" >
+                                 <input type="text" name="longTujuan" class="ml-auto p-2" value="<?= $data['perjalanan']['lokasi_tujuan']['long'] ?>" required placeholder="long_tujuan" >
                               </div>
                               <div class="w-full flex my-2">
                                  <div form="Jarak" class="">Jarak</div>
-                                 <input type="text" name="jarak" class="ml-auto p-2" value="<?= $value['perjalanan']['jarak'] ?>" required placeholder="jarak" >
+                                 <input type="text" name="jarak" class="ml-auto p-2" value="<?= $data['perjalanan']['jarak'] ?>" required placeholder="jarak" >
                               </div>
                               <div class="w-full flex my-2">
                                  <div form="biaya" class="">Biaya :</div>
-                                 <input type="text" name="biaya" class="ml-auto p-2" value="<?= $value['perjalanan']['biaya'] ?>" required placeholder="biaya" >
+                                 <input type="text" name="biaya" class="ml-auto p-2" value="<?= $data['perjalanan']['biaya'] ?>" required placeholder="biaya" >
                               </div>
                               <div class="w-full flex my-2">
                                  <a href="index.php?view=order" class="mx-auto p-4 text-blue-800">Tambah Data</a>
@@ -244,7 +265,6 @@
                         </div>
 
                   </form>
-               <?php endforeach ?>
          <?php endif ?>
       </div>
    </div>

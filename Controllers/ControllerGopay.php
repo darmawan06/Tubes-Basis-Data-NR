@@ -1,17 +1,16 @@
 <?php 
 	class ControllerGopay{
-		private $model;
+		public $model;
 		function __construct()
 		{
 			$this->model = new ModelGopay();
 		}
 
-		public function insertData(){
+		public function insertData($_id,$saldo,$jenis_gopay){
 			$data = array(
-				"_id" => $_POST['id'],
-				"id_user" => $_POST['id_user'],
-				"saldo" => $_POST['saldo'],
-				"jenis_gopay" => $_POST['jenis_gopay'],
+				"_id" => $_id,
+				"saldo" => (int)$saldo,
+				"jenis_gopay" => $jenis_gopay,
 			);
 			if(!$this->model->create($data)){
 				echo "GAGAL";
@@ -19,10 +18,9 @@
 		}
 
 		public function updateData(){
-			$_id = array("_id" => $_POST['id']);
+			$_id = array("_id" => $_POST['id_user']);
 			$data = array(
-				"id_user" => $_POST['id_user'],
-				"saldo" => $_POST['saldo'],
+				"saldo" =>(int)$_POST['saldo'],
 				"jenis_gopay" => $_POST['jenis_gopay'],
 			);
 			if (count($data) != 0 && !is_null($_id)) {
@@ -43,7 +41,7 @@
 			    [
 			      '$lookup' => [
 			          'from' => $form,
-			          'localField' => 'id_user',
+			          'localField' => '_id',
 			          'foreignField' => '_id',
 			          'as' => 'user'
 			      ],
@@ -58,6 +56,7 @@
 		}
 	}
 
+		
 	if (isset($_GET['method'])) {
 		require '../Models/ModelGopay.php';
 		$control = new ControllerGopay();
@@ -67,10 +66,10 @@
 				window.location.href = '../index.php?view=gopay'
 			</script>";
 		}else if ($_GET['method'] == "insert") {
-			$control->insertData();
-			echo "<script>
-				window.location.href = '../index.php?view=gopay'
-			</script>";
+			// $control->insertData();
+			// echo "<script>
+			// 	window.location.href = '../index.php?view=gopay'
+			// </script>";
 		}else if ($_GET['method'] == "update") {
 			$control->updateData();
 			echo "<script>

@@ -1,6 +1,5 @@
 <?php 
 	
-
 	class ModelGopay{
 		private $db;
 		public $collection;
@@ -36,7 +35,7 @@
 			if(is_null($data)){
 				return $this->collection->find();
 			}else{
-				return $this->collection->find($data);
+				return $this->collection->findOne($data);
 			}
 		}
 

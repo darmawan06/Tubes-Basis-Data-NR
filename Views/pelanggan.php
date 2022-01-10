@@ -85,6 +85,7 @@
                <?php endforeach; ?>
               </tbody>
            </table>  
+          <span><i>*Saat Menambahkan Data User, secara otomatis gopay user tersebut akan di buat</i></span>
          </div>
          <div class="w-2/6 h-5/6 mt-4">
             <?php if (!isset($_GET['update_id'])): ?>

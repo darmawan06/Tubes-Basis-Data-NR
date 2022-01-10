@@ -7,8 +7,8 @@
 		}
 
 		public function insertData(){
-			$data = array(
-				"_id" => $_POST['id'],
+			require '../Models/ModelGopay.php';
+			$data_insert = array(
 				"id_penumpang" => $_POST['idPenumpang'],
 				"id_driver" => $_POST['idDriver'],
 				"perjalanan" => array(
@@ -21,23 +21,22 @@
 						"long" => $_POST['longTujuan']
 					),
 					"jarak" => $_POST['jarak'],
-					"biaya" => $_POST['biaya'],
+					"biaya" => (int)$_POST['biaya'],
 				),
 				"waktu_order" => $_POST['waktu'],
-				"status_order" => $_POST['status'],
+				"status_order" => Null,
 				"rating_perjalanan" => $_POST['rating'],
 				"jumlah_xp" => $_POST['xp'],
 				"metode_pembayaran" => $_POST['metode'],
 			);
-			if(!$this->model->create($data)){
-				echo "GAGAL";
-			}
+				$data_insert['status_order'] = $this->prosesHitungGopay($data_insert);
+				$this->model->create($data_insert);
 		}
 
 		public function updateData(){
-			$_id = array("_id" => $_POST['id']);
-			$data = array(
-				"_id" => $_POST['id'],
+			require '../Models/ModelGopay.php';
+			$data_id = $_POST['id'];
+			$data_update = array(
 				"id_penumpang" => $_POST['idPenumpang'],
 				"id_driver" => $_POST['idDriver'],
 				"perjalanan" => array(
@@ -53,23 +52,72 @@
 					"biaya" => $_POST['biaya'],
 				),
 				"waktu_order" => $_POST['waktu'],
-				"status_order" => $_POST['status'],
+				"status_order" => Null,
 				"rating_perjalanan" => $_POST['rating'],
 				"jumlah_xp" => $_POST['xp'],
 				"metode_pembayaran" => $_POST['metode'],
 			);
 			
-			if (count($data) != 0 && !is_null($_id)) {
-				if (!$this->model->update($_id,$data)) {
-					echo "GAGAL";
-				}
+			if (count($data_update) != 0 && !is_null($data_id)) {
+				$data_update['status_order'] = $this->prosesUlangHitungGopay($data_update,$data_id);
+				$data_update['status_order'] = $this->prosesHitungGopay($data_update);
+				$this->model->update($data_id,$data_update);
 			}
 		}
 
+		private function prosesHitungGopay($data){
+			$this->modelGopay = new ModelGopay();
+			$gopayPenumpang = $this->modelGopay->select(['_id' => $data['id_penumpang']]);
+			$gopayDriver = $this->modelGopay->select(['_id' => $data['id_driver']]);
+			$biaya = $data['perjalanan']['biaya'];
+			$jumlahPenumpang = (int) $gopayPenumpang['saldo'] - $biaya;
+			$jumlahDriver = (int) $gopayDriver['saldo'] + $biaya;
+			if($jumlahPenumpang >= 0){
+				$_id = array("_id" => $gopayPenumpang['_id']);
+				$data = array(
+					"saldo" =>(int) $jumlahPenumpang
+				);
+				$this->modelGopay->update($_id,$data);
+
+				$_id = array("_id" => $gopayDriver['_id']);
+				$data = array(
+					"saldo" =>(int) $jumlahDriver
+				);
+				$this->modelGopay->update($_id,$data);
+				return "BERHASIL";
+			}else{
+				return "GAGAL PEMBAYARAN";
+			}
+		}
+
+		private function prosesUlangHitungGopay($data,$id){
+			$this->modelGopay = new ModelGopay();
+			$gopayPenumpang = $this->modelGopay->select(['_id' => $data['id_penumpang']]);
+			$gopayDriver = $this->modelGopay->select(['_id' => $data['id_driver']]);
+			$dataSebelumnya = $this->selectDataByID($id);
+			$biaya = $dataSebelumnya['perjalanan']['biaya'];
+			$jumlahPenumpang = (int) $gopayPenumpang['saldo'] + $biaya;
+			$jumlahDriver = (int) $gopayDriver['saldo'] - $biaya;
+			if($jumlahDriver >= 0){
+				$_id = array("_id" => $gopayPenumpang['_id']);
+				$data = array(
+					"saldo" =>(int) $jumlahPenumpang
+				);
+				$this->modelGopay->update($_id,$data);
+
+				$_id = array("_id" => $gopayDriver['_id']);
+				$data = array(
+					"saldo" =>(int) $jumlahDriver
+				);
+				$this->modelGopay->update($_id,$data);
+				return "BERHASIL";
+			}else{
+				return "GAGAL PEMBAYARAN";
+			}
+		}
 
 		public function deleteData($_id){
-			$data = array("_id" => $_id);
-			$this->model->delete($data);
+			$this->model->delete($_id);
 		}
 
 		public function selectData(){
@@ -77,8 +125,7 @@
 		}
 
 		public function selectDataByID($_id){
-			$data = array("_id" => $_id);
-			return $this->model->select($data);
+			return $this->model->select($_id);
 		}
 	}
 

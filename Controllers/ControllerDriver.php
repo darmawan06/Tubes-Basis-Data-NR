@@ -18,7 +18,6 @@
                     $namaFoto = $_FILES['foto_driver']['name'];
                     $arrNamaFoto = explode('.', $namaFoto);
                     $namaFoto = round(microtime(true)).'.'.$arrNamaFoto[1];
-
                     $data = array(
                         "_id" => "D".$_POST['id'],
                         "nama_driver" => $_POST['nama_driver'],
@@ -60,6 +59,9 @@
                                 echo "Upload Gagal!";
                             }
                         }
+                        require 'ControllerGopay.php';
+                        $this->conGopay = new ControllerGopay();
+                        $this->conGopay->insertData($data['_id'],0,"Normal");
                     }
                     else {
                         echo "GAGAL MENAMBAHKAN DATA DRIVER";

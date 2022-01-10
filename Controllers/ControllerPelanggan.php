@@ -18,7 +18,11 @@
 				),
 				"status" => $_POST['status'],
 			);
-			if(!$this->model->create($data)){
+			if($this->model->create($data)){
+				require 'ControllerGopay.php';
+				$this->conGopay = new ControllerGopay();
+				$this->conGopay->insertData($data['_id'],0,"Normal");
+			}else{
 				echo "GAGAL";
 			}
 		}
