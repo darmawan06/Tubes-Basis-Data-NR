@@ -31,7 +31,7 @@
 			$this->collection->deleteOne($id);
 		}
 
-		public function select($id){
+		public function select($id = null){
 			if(is_null($id)){
 				return $this->collection->find();
 			}
